@@ -7,6 +7,8 @@ clear all
 bag_dir = '/home/nbfigueroa/Dropbox/Demonstrator_Year4/Peeling_demos_April29_bags/';
 bags = dir(strcat(bag_dir,'*.bag'));
 
+data_dir = '/home/nbfigueroa/catkin_ws/src/my_matlab_rosbag/data/bimanual_peeling';
+
 %% Set Topics of Interest
 
 % Topic Names for Right Arm
@@ -47,11 +49,14 @@ for ii=1:N
     % Import TF Tree
     
     % Extract Important TFs
+
+    % Save Mat file of Raw Data (bags, bag_dir, data) to data_dir,bag(ii).name
     
 end
+
 %% Data Pre-Processing
 
-% At this point I could import the mat files -->
+% At this point I could import the mat files (*/data/bimanual_peeling) if I already read the bags -->
 
 for jj=1:1
     % Pre-process data from right arm
