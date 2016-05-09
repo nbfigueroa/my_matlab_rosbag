@@ -19,7 +19,7 @@ converter = @(x) (R2rpy(quaternion2matrix([x(4);x(1:3)]))');
 [ori] = ros.msgs2mat(msgs, orientation); 
 pose_t = cellfun(@(x) x.time.time, meta); % Time Stamps
 
-Pose = [pos;ori;pose_t];
+Pose = [pos;ori(4,:);ori(1:3,:);pose_t];
 
 % Read Force/Torque Topics
 [msgs, meta] = bag.readAll(ft_topic);
