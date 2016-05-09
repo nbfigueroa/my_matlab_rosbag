@@ -13,7 +13,5 @@ In the *./tasks* folder I have scripts to extract the topics for my demonstrated
 - bimanual peeling 
 - peg search
 
-In the *./data* folder I have the *.mat* files extracted from the task specific demonstrations.
-
 
 
