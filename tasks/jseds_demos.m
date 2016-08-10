@@ -4,6 +4,7 @@ clear rosbag_wrapper;
 clear ros.Bag;
 clear all
 
+%---> MODIFY THESE DIRECTORIES
 bag_dir = '/home/nbfigueroa/Desktop/kinesthetic_recordings/Yo/bags/target_3/';
 data_dir = '/home/nbfigueroa/Desktop/kinesthetic_recordings/Yo/mat/';
 
