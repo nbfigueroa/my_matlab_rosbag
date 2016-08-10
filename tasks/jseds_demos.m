@@ -4,7 +4,7 @@ clear rosbag_wrapper;
 clear ros.Bag;
 clear all
 
-bag_dir = '/home/nbfigueroa/Desktop/kinesthetic_recordings/Yo/bags/';
+bag_dir = '/home/nbfigueroa/Desktop/kinesthetic_recordings/Yo/bags/target_3/';
 data_dir = '/home/nbfigueroa/Desktop/kinesthetic_recordings/Yo/mat/';
 
 bags = dir(strcat(bag_dir,'*.bag'));
