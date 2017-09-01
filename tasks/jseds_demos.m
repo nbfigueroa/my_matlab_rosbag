@@ -8,6 +8,9 @@ clear all
 bag_dir = '/home/nbfigueroa/Desktop/kinesthetic_recordings/Yo/bags/pour_no_obst/';
 data_dir = '/home/nbfigueroa/Desktop/kinesthetic_recordings/Yo/mat/pour_no_obst/';
 
+bag_dir = '/home/nbfigueroa/Dropbox/gaga and borat/TRO-2017/Learning/bags/feetPlanar';
+data_dir = '/home/nbfigueroa/Desktop/kinesthetic_recordings/Yo/mat/pour_no_obst/';
+
 bags = dir(strcat(bag_dir,'*.bag'));
 
 %% Set Topics of Interest
