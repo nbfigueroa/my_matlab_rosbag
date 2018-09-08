@@ -11,6 +11,6 @@ In the *./tasks* folder I have scripts to extract the topics for my demonstrated
 - pouring 
 - rolling 
 - bimanual peeling 
-
+- jt-ds demos (joint space DS)
 
 
