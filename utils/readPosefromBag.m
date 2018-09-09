@@ -1,11 +1,15 @@
-function [ Pose ] = readPosefromBag(bag, pose_topic)
+function [ Pose ] = readPosefromBag(bag, pose_topic, varargin)
 %UNTITLED4 Summary of this function goes here
 %   Detailed explanation goes here
 
 % Functions for each topic type
-position     = @(p) p.pose.position;
-orientation  = @(p) p.pose.orientation;
-
+if nargin == 2
+    position     = @(p) p.pose.position;
+    orientation  = @(p) p.pose.orientation;
+else
+    position     = @(p) p.position;
+    orientation  = @(p) p.orientation;
+end
 % Rotation Converter from Quat to Euler
 converter = @(x) (R2rpy(quaternion2matrix([x(4);x(1:3)]))');
 
