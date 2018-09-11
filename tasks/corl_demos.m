@@ -5,7 +5,7 @@ clear ros.Bag;
 clear all
 
 %---> MODIFY THESE DIRECTORIES
-bag_dir = '../../corl-2018/bags/';
+bag_dir = '../../corl-2018/bags/Sept10_00am/';
 data_dir = '../../corl-2018/mat/';
 
 bags = dir(strcat(bag_dir,'*.bag'));
@@ -39,7 +39,6 @@ for ii=1:N
     clear kuka
     kuka.ee_pose        = ee_pose;   
     kuka.gripper_state  = gripper_state;   
-    kuka.joint_states   = joint_states;    
     
     % Save as passive and active
     data{ii}.kuka = kuka;
@@ -49,7 +48,7 @@ for ii=1:N
 end
 
 %% Save raw data to matfile
-matfile = strcat(data_dir,'demos_Sept9_2am_raw_data.mat');
+matfile = strcat(data_dir,'demos_Sept10_04am_raw_data.mat');
 save(matfile,'data','bags','bag_dir')
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -57,19 +56,20 @@ save(matfile,'data','bags','bag_dir')
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Load Data from Mat File
-matfile = strcat(data_dir,'demos_Sept9_2am_raw_data.mat');
+matfile = strcat(data_dir,'demos_Sept10_04am_raw_data.mat');
 load(matfile);
 
 %% Visualize EE position and velocity Data
 figure('Color',[1 1 1])
-chosen_demo = 3;
+chosen_demo  = 3; % For top C: 2,3,5.. For bottom C: 7,8
+sample_size  = 2;
 
 % Extract desired trajectory
 recording = data{chosen_demo};
 
 % Extract desired variables
-ee_traj       = recording.kuka.ee_pose(1:3,:);
-gripper_state = recording.kuka.gripper_state(1,:);
+ee_traj       = recording.kuka.ee_pose(1:3,1:sample_size:end);
+gripper_state = recording.kuka.gripper_state(1,1:sample_size:end);
 
 % Plot EE Trajectories
 scatter3(ee_traj(1,gripper_state == 0), ee_traj(2,gripper_state == 0), ee_traj(3,gripper_state == 0), 7.5, 'MarkerEdgeColor','k','MarkerFaceColor',[0.5 .5 .5]); hold on;
@@ -78,6 +78,6 @@ scatter3(ee_traj(1,gripper_state == 255), ee_traj(2,gripper_state == 255), ee_tr
 xlabel('$\xi_1$', 'Interpreter', 'LaTex', 'FontSize',15);
 ylabel('$\xi_2$', 'Interpreter', 'LaTex','FontSize',15);
 zlabel('$\xi_3$', 'Interpreter', 'LaTex','FontSize',15);
-legend({'Return Primitive', 'Non-linear Primitive'},'Interpreter', 'LaTex','FontSize',15)
+legend({'Picking Primitive', 'Non-linear Primitive'},'Interpreter', 'LaTex','FontSize',15)
 grid on
 title('Cartesian EE Position Trajectories',  'Interpreter', 'LaTex','FontSize',15)
