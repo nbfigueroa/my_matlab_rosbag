@@ -5,7 +5,7 @@ clear ros.Bag;
 clear all
 
 %---> MODIFY THESE DIRECTORIES
-bag_dir = '../../corl-2018/bags/Sept10_00am/';
+bag_dir = '../../corl-2018/bags/Scenario1_Sept9_11pm/';
 data_dir = '../../corl-2018/mat/';
 
 bags = dir(strcat(bag_dir,'*.bag'));
@@ -35,41 +35,30 @@ for ii=1:N
     % Bag Times
     t_begin = bag.time_begin; t_end = bag.time_end;  
     
-    % Make data structs
-    clear kuka
-    kuka.ee_pose        = ee_pose;   
-    kuka.gripper_state  = gripper_state;   
-    
     % Save as passive and active
-    data{ii}.kuka = kuka;
-    data{ii}.times = [t_begin t_end];
-    data{ii}.name  = strrep(bags(ii).name,'.bag','');    
+    data{ii}.ee_pose       = ee_pose;
+    data{ii}.gripper_state = gripper_state;
+    data{ii}.dt            = ee_pose(8,end) - ee_pose(8,end-1);
+    data{ii}.times         = [t_begin t_end];
+    data{ii}.name          = strrep(bags(ii).name,'.bag','');    
     
 end
 
 %% Save raw data to matfile
-matfile = strcat(data_dir,'demos_Sept10_04am_raw_data.mat');
+matfile = strcat(data_dir,'demos_Scenario1_Sept9_11pm_raw_data.mat');
 save(matfile,'data','bags','bag_dir')
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% START FROM HERE IF BAGS ALREADY Processed!!!
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Load Data from Mat File
-matfile = strcat(data_dir,'demos_Sept10_04am_raw_data.mat');
-load(matfile);
-
-%% Visualize EE position and velocity Data
+%% Visualize EE position
 figure('Color',[1 1 1])
-chosen_demo  = 3; % For top C: 2,3,5.. For bottom C: 7,8
+chosen_demo  = 1; 
 sample_size  = 2;
 
 % Extract desired trajectory
 recording = data{chosen_demo};
 
 % Extract desired variables
-ee_traj       = recording.kuka.ee_pose(1:3,1:sample_size:end);
-gripper_state = recording.kuka.gripper_state(1,1:sample_size:end);
+ee_traj       = recording.ee_pose(1:3,1:sample_size:end);
+gripper_state = recording.gripper_state(1,1:sample_size:end);
 
 % Plot EE Trajectories
 scatter3(ee_traj(1,gripper_state == 0), ee_traj(2,gripper_state == 0), ee_traj(3,gripper_state == 0), 7.5, 'MarkerEdgeColor','k','MarkerFaceColor',[0.5 .5 .5]); hold on;
