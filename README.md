@@ -8,9 +8,10 @@ https://github.com/bcharrow/matlab_rosbag
 
 In the *./tasks* folder I have scripts to extract the topics for my demonstrated tasks:
 
-- pouring 
-- rolling 
-- bimanual peeling 
-- jt-ds demos (joint space DS)
+- pouring (1 arm, End Effector position/orientation and force/torque)
+- rolling (1 arm, End Effector position/orientation and force/torque)
+- bimanual peeling (2 arms, End Effector position/orientation and force/torque)
+- jt-ds demos (1 arm, Joint positions and End Effector position/orientation)
+- corl demos (1 arm, End Effector position/orientation and Gripper State)
 
 
