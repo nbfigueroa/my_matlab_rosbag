@@ -12,7 +12,7 @@ load(matfile);
 
 % Extract EE Positions and Remove zero velocity points (trim)
 dt = data{1}.dt; N = length(data);
-data_ = []; Xi_ref = []; tol_cutting = 0.5;
+data_ = []; Xi_ref = []; tol_cutting = 0.005;
 for n=1:N        
     % Load into data structure    
     data_{n}.Xi_ref     = data{n}.ee_pose(1:3,:);
@@ -46,17 +46,33 @@ for n=1:N
     Xi_ref     = data{1,n}.Xi_ref;   
     for s=1:length(segment)
         if segment(s,3) == 1
-              p = p + 1;
-              dx_nth = sgolay_time_derivatives(Xi_ref(:,segment(s,1):segment(s,2))', dt, 1, 2, 21);
-              Xi_ref_tmp     = dx_nth(:,:,1)';
-              Xi_dot_ref_tmp = dx_nth(:,:,2)';              
-              data_primitive_1{p,1} = [Xi_ref_tmp; Xi_dot_ref_tmp];
+            p = p + 1;
+            % Do filtering
+            dx_nth = sgolay_time_derivatives(Xi_ref(:,segment(s,1):segment(s,2))', dt, 1, 2, 21);
+            Xi_ref_tmp     = dx_nth(:,:,1)';
+            Xi_dot_ref_tmp = dx_nth(:,:,2)';
+                            
+            % trimming demonstrations (Removing measurements with zero velocity)
+            ind = find(sqrt(sum(Xi_dot_ref_tmp.*Xi_dot_ref_tmp,1))>tol_cutting);
+            Xi_ref_tmp = Xi_ref_tmp(:,min(ind):max(ind));
+            Xi_dot_ref_tmp = Xi_dot_ref_tmp(:,min(ind):max(ind));            
+            
+            % feed to data structure
+            data_primitive_1{p,1} = [Xi_ref_tmp; Xi_dot_ref_tmp];
         else
-              o = o + 1;
-              dx_nth = sgolay_time_derivatives(Xi_ref(:,segment(s,1):segment(s,2))', dt, 1, 2, 21);
-              Xi_ref_tmp     = dx_nth(:,:,1)';
-              Xi_dot_ref_tmp = dx_nth(:,:,2)';              
-              data_primitive_0{o,1} = [Xi_ref_tmp; Xi_dot_ref_tmp];
+            o = o + 1;
+            % Do filtering
+            dx_nth = sgolay_time_derivatives(Xi_ref(:,segment(s,1):segment(s,2))', dt, 1, 2, 21);
+            Xi_ref_tmp     = dx_nth(:,:,1)';
+            Xi_dot_ref_tmp = dx_nth(:,:,2)';
+            
+            % trimming demonstrations (Removing measurements with zero velocity)
+            ind = find(sqrt(sum(Xi_dot_ref_tmp.*Xi_dot_ref_tmp,1))>tol_cutting);
+            Xi_ref_tmp = Xi_ref_tmp(:,min(ind):max(ind));
+            Xi_dot_ref_tmp = Xi_dot_ref_tmp(:,min(ind):max(ind));            
+            
+            % feed to data structure
+            data_primitive_0{o,1} = [Xi_ref_tmp; Xi_dot_ref_tmp];
         end
     end
         
@@ -120,6 +136,6 @@ title('Picking Primitive -  Cartesian EE Velocity Profiles',  'Interpreter', 'La
 
 
 %% Save processed data to matfile
-matfile = strcat(mat_data_dir,'demos_Scenario2_Sept10_00am_processed_data.mat');
+matfile = strcat(mat_data_dir,'demos_Scenario1_Sept9_11pm_processed_data.mat');
 save(matfile,'data_primitive_1','data_primitive_0','dt')
 
