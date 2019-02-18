@@ -13,5 +13,5 @@ In the *./tasks* folder I have scripts to extract the topics for my demonstrated
 - bimanual peeling (2 arms, End Effector position/orientation and force/torque)
 - jt-ds demos (1 arm, Joint positions and End Effector position/orientation)
 - corl demos (1 arm, End Effector position/orientation and Gripper State)
-
+- new wiping demos ( 1 arm, End Effector position/orientation and force/torque)
 
