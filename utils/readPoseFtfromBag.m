@@ -1,12 +1,19 @@
-function [ Pose, FT ] = readPoseFtfromBag(bag, pose_topic, ft_topic )
+function [ Pose, FT ] = readPoseFtfromBag(bag, pose_topic, ft_topic, varargin )
 %UNTITLED4 Summary of this function goes here
 %   Detailed explanation goes here
 
 % Functions for each topic type
-position     = @(p) p.pose.position;
-orientation  = @(p) p.pose.orientation;
+% Functions for each topic type
+if nargin == 2 
+    position     = @(p) p.pose.position;
+    orientation  = @(p) p.pose.orientation;   
+else
+    position     = @(pose) pose.position;
+    orientation  = @(pose) pose.orientation;
+end
+
 force        = @(w) w.wrench.force;
-torque       = @(w) w.wrench.torque;
+    torque       = @(w) w.wrench.torque;   
 
 % Rotation Converter from Quat to Euler
 converter = @(x) (R2rpy(quaternion2matrix([x(4);x(1:3)]))');
